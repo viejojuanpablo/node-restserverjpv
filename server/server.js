@@ -1,5 +1,7 @@
 require('./config/config');
 const express = require('express');
+// Using Node.js `require()`
+const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 
@@ -13,38 +15,16 @@ app.get('/', function(req, res) {
     res.json('Hello World')
 });
 
-app.get('/usuario', function(req, res) {
-    res.json('GET Usuario')
-});
+// referenciar controller de las rutas /usuario/...
+app.use(require('./Controllers/usuario'));
 
-app.post('/usuario', function(req, res) {
-    let body = req.body;
 
-    if (body.nombre === undefined) {
-
-        res.status(400).json({
-            ok: false,
-            mensaje: 'Falto informar el nombre'
-        });
-
-    } else {
-        res.json({
-            persona: body
-        })
-    }
-});
-
-app.put('/usuario/:id', function(req, res) {
-
-    let id = req.params.id;
-
-    res.json({
-        id
-    })
-});
-
-app.delete('/usuario', function(req, res) {
-    res.json('DELETE Usuario')
+mongoose.connect('mongodb://localhost:27017/cafe', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}, (err, resp) => {
+    if (err) throw err;
+    console.log('La base de datos ONLINE');
 });
 
 app.listen(process.env.PORT, () => {
