@@ -19,9 +19,10 @@ app.get('/', function(req, res) {
 app.use(require('./Controllers/usuario'));
 
 
-mongoose.connect('mongodb://localhost:27017/cafe', {
+mongoose.connect(process.env.URLDB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 }, (err, resp) => {
     if (err) throw err;
     console.log('La base de datos ONLINE');
