@@ -1,8 +1,7 @@
 require('./config/config');
 const express = require('express');
-// Using Node.js `require()`
-const mongoose = require('mongoose');
 const app = express();
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 // parse application/x-www-form-urlencoded
@@ -11,12 +10,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-app.get('/', function(req, res) {
-    res.json('Hello World')
-});
+// Config global de rutas
+app.use(require('./Controllers'));
 
-// referenciar controller de las rutas /usuario/...
-app.use(require('./Controllers/usuario'));
+app.get('/', function(req, res) {
+    res.json('Estamos activos')
+});
 
 
 mongoose.connect(process.env.URLDB, {
